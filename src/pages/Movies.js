@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
@@ -17,9 +17,12 @@ const GlobalStyle = createGlobalStyle`
   li {
     text-decoration: none;
   }
+  body{
+    background-color: #292929;
+  }
 `;
 const MainContainer = styled.section`
-  background-color: #292929;
+  
 `;
 const Movie = styled.div`
   /* border: solid red; */
@@ -28,8 +31,8 @@ const Movie = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 70vh;
-  width: 50%;
+  height: 65vh;
+  width: 33%;
 `;
 const Wrapper = styled.div`
   display: flex;
@@ -39,11 +42,11 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 const Poster = styled.img`
-  width: 350px;
-  height: 300px;
+  width: 20vw;
+  height: 20vw;
 `;
 const MovieWrapper = styled.div`
-  /* border: yellow solid; */
+  border: yellow solid;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -56,27 +59,35 @@ const Title = styled.h1`
   margin: 0 0 15px 0;
   color: #fff;
 `;
-const Overview = styled.p`
-  background-color: rgba(139, 0, 0, 0.4);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  color: #fff;
-  font-weight: bolder;
-  width: 700px;
-  height: 300px;
-  text-align: center;
-  display: flex;
-  align-items: center;
-`;
 const ItemTitle = styled.h2`
   background-color: rgba(139, 0, 0, 0.4);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  margin-bottom: 20px;
   color: #fff;
 `;
+const SearchBar = styled.input`
+    width: 28vw;
+    padding: 11px;
+     font-size: 20px;
+     border-width: 1px;
+     border-color: #CCCCCC;
+     background-color: #FFFFFF;
+     color: #000000;
+     border-style: solid;
+     border-radius: 50px;
+     box-shadow: 0px 0px 5px rgba(66,66,66,.75);
+     text-shadow: 0px 0px 5px rgba(66,66,66,.75);
+`
+const SearchWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 25px 0 25px 0;
+`
 export default class Movies extends React.Component {
   state = {
     movieList: [],
+    filterList: []
   };
 
   async componentDidMount() {
@@ -91,6 +102,7 @@ export default class Movies extends React.Component {
     });
     this.setState({
       movieList: movies,
+      filterList: movies
     });
   }
 
@@ -98,29 +110,37 @@ export default class Movies extends React.Component {
     const { movieList } = this.state;
 
     const filteredMovies = movieList.filter((item) => {
-      if (item.title.includes(event.target.value)) {
+      if (item.title.toLowerCase().includes(event.target.value.toLowerCase())) {
         return true;
-      }
+      } 
+      
     });
     this.setState({
       filterList: filteredMovies,
     });
   };
 
+
+
   render() {
     return (
       <MainContainer>
         <GlobalStyle />
         <Title>Possíveis escolhas de filme:</Title>
-        {/* <input onChange={this.filterMovies} value={} / */}
+        <SearchWrapper>
+        <SearchBar 
+        onChange={this.filterMovies}
+        placeholder="Pesquise aqui o filme que deseja assistir! :)" />
+        </SearchWrapper>
         <Wrapper>
-          {this.state.movieList.map((item) => (
+          {this.state.filterList.map((item) => (
             <Movie>
-              <MovieWrapper>
+              {/* <MovieWrapper> */}
                 <ItemTitle>{item.title}</ItemTitle>
                 <Poster src={item.poster_path} alt={item.title} />
-                <Overview>{item.overview}</Overview>
-              </MovieWrapper>
+                {/* <Overview>{item.overview}</Overview> */} 
+                {/* deixei sem sinopse por que tava quebrando mt o design que eu queria :/ */}
+              {/* </MovieWrapper> */}
             </Movie>
           ))}
         </Wrapper>

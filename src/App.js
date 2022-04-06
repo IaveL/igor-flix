@@ -16,12 +16,6 @@ const GlobalStyle = createGlobalStyle`
   li{
     list-style-type: none;
   }
-  a{
-    text-decoration: none;
-  }
-  a:visited {
-    text-decoration: none;
-  }
 `;
 const TopContainerNav = styled.nav`
   width: 100%;
@@ -37,14 +31,23 @@ const TopNavBar = styled.ul`
   color: white;
 `
 const TopNavItem = styled.li`
-  text-decoration: none;
-  font-size: 1.3em;
-  
-  & :hover {
+ :hover {
     cursor: pointer;
     background-color: rgba(139,0,0, 0.4);
     font-size: 1.5em;
   }
+`
+const Anchor = styled(Link)`
+  text-decoration: none;
+  font-size: 1.3em;
+  color: white;
+  & :hover {
+    background-color: rgba(139,0,0, 0.4);
+    font-size: 1.5em;
+  }
+  /* & :visited {
+    text-decoration: none;
+  } */
 `
 export default class App extends React.Component {
   render() {
@@ -53,15 +56,15 @@ export default class App extends React.Component {
         <GlobalStyle />
         <TopContainerNav>
           <TopNavBar>
-            <TopNavItem>
-              <Link to="/movies">Filmes</Link>
-            </TopNavItem>
-            <TopNavItem>
-              <Link to="/">Home</Link>
-            </TopNavItem>
-            <TopNavItem>
-             <Link to="/Shows">Séries</Link>
-            </TopNavItem>
+            <li>
+              <Anchor to="/movies">Filmes</Anchor>
+            </li>
+            <li>
+              <Anchor to="/">Home</Anchor>
+            </li>
+            <li>
+             <Anchor to="/Shows">Séries</Anchor>
+            </li>
           </TopNavBar>
         </TopContainerNav>
         <Routes>
